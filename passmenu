@@ -2,8 +2,10 @@
 
 shopt -s nullglob globstar
 
-password_files=( ~/.password-store/**/*.gpg )
-password_files=( "${password_files[@]##*/.password-store/}" )
+STORE_DIR=${PASSWORD_STORE_DIR:-~/.password-store}
+
+password_files=( ${STORE_DIR}/**/*.gpg )
+password_files=( "${password_files[@]##${STORE_DIR}/}" )
 password_files=( "${password_files[@]%.gpg}" )
 
 password=$(printf '%s\n' "${password_files[@]}" | dmenu "$@")
